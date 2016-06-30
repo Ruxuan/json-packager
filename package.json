@@ -1,0 +1,22 @@
+{
+  "name": "json-packager",
+  "version": "1.0.0",
+  "description": "A small library that gathers sub-directory data into a json file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ruxuan/json-packager.git"
+  },
+  "keywords": [
+    "Json"
+  ],
+  "author": "Ruxuan Li",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Ruxuan/json-packager/issues"
+  },
+  "homepage": "https://github.com/Ruxuan/json-packager#readme"
+}
