@@ -20,13 +20,18 @@ module.exports = function(dir) {
 
 	// Get css file
 	var pScss = fs.readFileSync(noExt + ".scss", "utf-8");
-	var pCss  = sass.renderSync({
-  		data: pScss
-	});
+	if (pScss == "") {
+		var pCss = "";
+	} else {
+		var render = sass.renderSync({
+	  		data: pScss
+		});
+		var pCss   = render.css.toString('utf-8');
+	}
 
 	// Add files to json
 	jsonData.presentation.html = pHtml;
-	jsonData.presentation.css  = pCss.css.toString("utf-8");
+	jsonData.presentation.css  = pCss;
 
 	// Return JSON
 	return jsonData;
