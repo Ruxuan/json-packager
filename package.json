@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/Ruxuan/json-packager/issues"
   },
-  "homepage": "https://github.com/Ruxuan/json-packager#readme"
+  "homepage": "https://github.com/Ruxuan/json-packager#readme",
+  "dependencies": {
+    "fs": "0.0.2"
+  }
 }
