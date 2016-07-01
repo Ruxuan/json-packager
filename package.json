@@ -20,6 +20,8 @@
   },
   "homepage": "https://github.com/Ruxuan/json-packager#readme",
   "dependencies": {
-    "fs": "0.0.2"
+    "fs": "0.0.2",
+    "node-sass": "^3.8.0",
+    "path": "^0.12.7"
   }
 }
