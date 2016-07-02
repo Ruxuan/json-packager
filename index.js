@@ -1,6 +1,9 @@
 var fs   = require('fs');
 var path = require('path');
 var sass = require('node-sass');
+var cheerio = require('cheerio');
+
+// TODO: check if getElementByTagName is getting nested div's as well
 
 module.exports = function(dir) {
 	// Get Path information
@@ -17,6 +20,9 @@ module.exports = function(dir) {
 
 	// Get html file
 	var pHtml = fs.readFileSync(noExt + ".html", "utf-8");
+	// Get number of slides in the slideshow
+	var $     = cheerio.load(pHtml);
+	var pLen  = $("div").length;
 
 	// Get css file
 	var pScss = fs.readFileSync(noExt + ".scss", "utf-8");
@@ -30,8 +36,9 @@ module.exports = function(dir) {
 	}
 
 	// Add files to json
-	jsonData.presentation.html = pHtml;
-	jsonData.presentation.css  = pCss;
+	jsonData.presentation.html   = pHtml;
+	jsonData.presentation.css    = pCss;
+	jsonData.presentation.length = pLen;
 
 	// Return JSON
 	return jsonData;
