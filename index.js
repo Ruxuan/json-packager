@@ -1,11 +1,22 @@
-var fs   = require('fs');
-var path = require('path');
-var sass = require('node-sass');
+var fs      = require('fs');
+var path    = require('path');
+var sass    = require('node-sass');
 var cheerio = require('cheerio');
 
 // TODO: check if getElementByTagName is getting nested div's as well
 
-module.exports = function(dir) {
+module.exports = function(dirList, target) {
+	var jsonArray   = dirList.map(compileFile);
+	var stringified = JSON.stringify(jsonArray);
+
+	fs.writeFile(target, stringified, function(err) {
+		if(err) {
+        	return console.log(err);
+    	}
+	})
+}
+
+function compileFile(dir) {
 	// Get Path information
 	var pName = path.basename(dir, ".json");
 	var pDir  = path.dirname(dir);
