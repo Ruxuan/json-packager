@@ -33,9 +33,9 @@ function compileFile(dir) {
 	var pHtml = fs.readFileSync(noExt + ".html", "utf-8");
 	// Get number of slides in the slideshow
 	var $     = cheerio.load(pHtml);
-	var pLen  = $("div").filter(function(element, index) {
-		return element.hasClass("step");
-	});
+	var pLen  = $("div").filter(function(index, element) {
+    return $(this).hasClass("step");
+  }).length;
 
 	// Get css file
 	var pScss = fs.readFileSync(noExt + ".scss", "utf-8");
