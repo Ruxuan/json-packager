@@ -20,7 +20,7 @@ function compileFile(dir) {
 	// Get Path information
 	var pName = path.basename(dir, ".json");
 	var pDir  = path.dirname(dir);
-	var noExt = pDir + "/" + pName; 
+	var noExt = pDir + "/" + pName;
 
 	// Get .json Meta Data file
 	var pData = fs.readFileSync(dir);
@@ -33,7 +33,9 @@ function compileFile(dir) {
 	var pHtml = fs.readFileSync(noExt + ".html", "utf-8");
 	// Get number of slides in the slideshow
 	var $     = cheerio.load(pHtml);
-	var pLen  = $("div").length;
+	var pLen  = $("div").filter(function(element, index) {
+		return element.hasClass("step");
+	});
 
 	// Get css file
 	var pScss = fs.readFileSync(noExt + ".scss", "utf-8");
