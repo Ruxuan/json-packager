@@ -3,8 +3,6 @@ var path    = require('path');
 var sass    = require('node-sass');
 var cheerio = require('cheerio');
 
-// TODO: check if getElementByTagName is getting nested div's as well
-
 module.exports = function(dirList, target) {
 	var jsonArray   = dirList.map(compileFile);
 	var stringified = JSON.stringify(jsonArray);
@@ -13,45 +11,54 @@ module.exports = function(dirList, target) {
 		if(err) {
         	return console.log(err);
     	}
-	})
+	});
 }
 
 function compileFile(dir) {
 	// Get Path information
-	var pName = path.basename(dir, ".json");
-	var pDir  = path.dirname(dir);
-	var noExt = pDir + "/" + pName;
+	var noExt = path.dirname(dir) + "/" + path.basename(dir, ".json");
 
 	// Get .json Meta Data file
 	var pData = fs.readFileSync(dir);
 
 	// Initialize with Meta Data
 	var jsonData = JSON.parse(pData);
-	jsonData.presentation = {};
 
-	// Get html file
-	var pHtml = fs.readFileSync(noExt + ".html", "utf-8");
-	// Get number of slides in the slideshow
-	var $     = cheerio.load(pHtml);
-	var pLen  = $("div").filter(function(index, element) {
-    return $(this).hasClass("step");
-  }).length;
+	// Get cheerio of html file
+	var $     = cheerio.load(fs.readFileSync(noExt + ".html", "utf-8"));
+  var steps = [];
+  $("#impress-base > div").each(function(i, el) {
+    // Get id attr of div as its title
+    var title;
+    if (cheerio(el).attr('id') !== undefined) {
+      title = cheerio(el).attr('id');
+    } else {
+      title = null;
+    }
+
+    steps.push({
+      slideIndex: i,
+      title: title,
+      html: cheerio.load(el).html()
+    });
+  });
 
 	// Get css file
 	var pScss = fs.readFileSync(noExt + ".scss", "utf-8");
 	if (pScss == "") {
-		var pCss = "";
+		pCss = "";
 	} else {
 		var render = sass.renderSync({
-	  		data: pScss
+      data: pScss
 		});
 		var pCss   = render.css.toString('utf-8');
 	}
 
 	// Add files to json
-	jsonData.presentation.html   = pHtml;
+  jsonData.presentation        = {};
+  jsonData.presentation.steps  = steps;
 	jsonData.presentation.css    = pCss;
-	jsonData.presentation.length = pLen;
+	jsonData.presentation.length = steps.length;
 
 	// Return JSON
 	return jsonData;
