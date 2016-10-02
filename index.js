@@ -9,8 +9,10 @@ module.exports = function(dirList, target) {
 
 	fs.writeFile(target, stringified, function(err) {
 		if(err) {
-        	return console.log(err);
-    	}
+      console.log(err.message);
+    } else {
+			console.log("Successfully wrote json package");
+		}
 	});
 }
 
