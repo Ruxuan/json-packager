@@ -1,2 +1,2 @@
 # json-packager
-A small library that gathers sub-directory data into a json file
+A small npm module that gathers sub-directory data into a json file. Used for Strideshow and nothing else really.
